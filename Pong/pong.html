@@ -163,6 +163,15 @@ function drawEveryThing()
 	{	
 		canvasContext.fillStyle = 'white';
 		canvasContext.fillText("Click to continue",canvas.width/2 - 150,canvas.height/2);
+		
+		if(player1Score >= WINNING_SCORE )
+		{
+			canvasContext.fillText("Left Player Won..!!",canvas.width/2 - 150,canvas.height/4);
+		}else if(player2Score >= WINNING_SCORE)
+		{
+			canvasContext.fillText("Right Player Won..!!",canvas.width/2 - 150,canvas.height/4);
+		}
+		
 		return;
 	}
 	
