@@ -22,6 +22,8 @@ var player1Score = 0;
 var player2Score = 0; 
 const WINNING_SCORE = 3;
 
+var showWinScreen = false;
+
 function calculateMousePos(evt)
 {
 	var rect = canvas.getBoundingClientRect();
@@ -35,6 +37,16 @@ function calculateMousePos(evt)
 		y:mouseY
 	
 	};
+}
+
+function handleMouseClick(evt)
+{
+	if(showWinScreen)
+	{
+		player1Score = player2Score = 0;
+		showWinScreen = false;
+	}
+	
 }
 
 window.onload = function(){
@@ -55,14 +67,15 @@ window.onload = function(){
 
 	});
 	
+	canvas.addEventListener('mousedown',handleMouseClick);
+	
 }
 
 function ballReset()
 {
 	if(player1Score >= WINNING_SCORE || player2Score >= WINNING_SCORE)
 	{
-		player1Score = 0;
-		player2Score = 0;
+		showWinScreen = true;
 	}
 
 	ballSpeedX = - ballSpeedX;
@@ -88,6 +101,11 @@ function computerMovement()
 
 function moveEveryThing()
 {
+	if(showWinScreen)
+	{	
+		return;
+	}
+
 	computerMovement();
 
 	ballX += ballSpeedX;
@@ -139,6 +157,14 @@ function drawEveryThing()
 { 
 	//draw the canvas
 	colorRect(0,0,canvas.width,canvas.height,'grey');
+	canvasContext.font = "30px Verdana";
+	
+	if(showWinScreen)
+	{	
+		canvasContext.fillStyle = 'white';
+		canvasContext.fillText("Click to continue",canvas.width/2 - 150,canvas.height/2);
+		return;
+	}
 	
 	//left side paddle
 	colorRect(0,paddle1Y,PADDLE_THICKNESS,PADDLE_HEIGHT,'yellow');
@@ -148,7 +174,7 @@ function drawEveryThing()
 	
 	//draws the ball 
 	colorCircle(ballX,ballY,10,'white');
-	
+
 	canvasContext.fillText(player1Score,100,100);
 	canvasContext.fillText(player2Score,canvas.width-100,100);
 		
