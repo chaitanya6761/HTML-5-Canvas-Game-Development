@@ -1,0 +1,119 @@
+<!DOCTYPE HTML>
+<HTML>
+	<HEAD>
+		<TITLE>The Pong Game</TITLE>
+	</HEAD>
+
+	<BODY>
+		<CANVAS WIDTH="800" HEIGHT="600" ID="gameCanvas" tabindex="0"></CANVAS>
+	<SCRIPT>
+	var canvas;
+	var canvas_context;
+	
+	var ballX = 50;
+	var ballY = 50;	
+	
+	var ballSpeedX = 7;
+	var ballSpeedY = 4;
+	
+	var paddle1Y = 250;
+	var paddle2Y = 250;
+	
+	const PADDLE_SPEED = 10;
+	const PADDLE_HEIGHT = 100;
+	const PADDLE_THICKNESS = 10;	
+	
+	
+	function doKeyDown(e){
+		//alert(e.keyCode);
+
+			if (e.keyCode == 87) {
+				if(paddle1Y > 0)
+					paddle1Y -= PADDLE_SPEED;
+			}
+			if (e.keyCode == 83) {
+			
+				if(paddle1Y + PADDLE_HEIGHT < canvas.height )
+					paddle1Y += PADDLE_SPEED;
+			}
+			
+			if (e.keyCode == 38) {
+				if(paddle2Y > 0)
+					paddle2Y -= PADDLE_SPEED;
+			}
+			if (e.keyCode == 40) {
+			
+				if(paddle2Y + PADDLE_HEIGHT < canvas.height )
+					paddle2Y += PADDLE_SPEED;
+			}
+		}
+
+	window.onload = function(){
+		canvas = document.getElementById("gameCanvas");
+		canvas_context = canvas.getContext("2d");
+		
+		canvas.addEventListener('keydown', doKeyDown, true);
+		
+		var framesPerSecond = 30;
+		setInterval(function(){
+		moveEveryThing();
+		drawEveryThing();},1000/framesPerSecond );
+	}
+	
+	function moveEveryThing()
+	{
+		ballX += ballSpeedX;
+		ballY += ballSpeedY;
+		
+		if(ballX < 0)
+		{
+			ballSpeedX = - ballSpeedX;
+		}
+		
+		if(ballX > canvas.width)
+		{
+			ballSpeedX = - ballSpeedX;
+		}
+		
+		if(ballY > canvas.height || ballY < 0)
+		{
+			ballSpeedY = - ballSpeedY;
+		}
+		
+	}
+	
+	function drawEveryThing()
+	{ 
+		//draw the canvas
+		colorRect(0,0,canvas.width,canvas.height,'grey');
+		
+		//draw the left paddle
+		colorRect(0,paddle1Y,PADDLE_THICKNESS,PADDLE_HEIGHT,'yellow');
+		
+		//draw the right paddle
+		colorRect(canvas.width - PADDLE_THICKNESS,paddle2Y,PADDLE_THICKNESS,PADDLE_HEIGHT,'yellow');
+		
+		//draws the ball 
+		colorCircle(ballX,ballY,10,'white');
+	
+	}
+	
+	function colorRect(leftX,topY,width,height,drawColor)
+	{
+		canvas_context.fillStyle = drawColor;
+		canvas_context.fillRect(leftX,topY,width,height);
+	}
+	
+	function colorCircle(centerX,centerY,radius,drawColor)
+	{
+		canvas_context.fillStyle = drawColor;
+		canvas_context.beginPath();
+		canvas_context.arc(centerX,centerY,radius,0,Math.PI*2,true);
+		canvas_context.fill();
+	}
+
+	</SCRIPT>
+
+	</BODY>
+</HTML>
+
