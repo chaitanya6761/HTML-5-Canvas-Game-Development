@@ -19,7 +19,7 @@
 	var paddle1Y = 250;
 	var paddle2Y = 250;
 	
-	const PADDLE_SPEED = 10;
+	const PADDLE_SPEED = 22;
 	const PADDLE_HEIGHT = 100;
 	const PADDLE_THICKNESS = 10;	
 	
@@ -60,6 +60,13 @@
 		drawEveryThing();},1000/framesPerSecond );
 	}
 	
+	function ballReset()
+	{
+		ballSpeedX = - ballSpeedX;
+		ballX = canvas.width/2;
+		ballY = canvas.height/2;
+	}
+	
 	function moveEveryThing()
 	{
 		ballX += ballSpeedX;
@@ -67,12 +74,26 @@
 		
 		if(ballX < 0)
 		{
-			ballSpeedX = - ballSpeedX;
+			if(ballY > paddle1Y && ballY < paddle1Y + PADDLE_HEIGHT)
+			{
+				ballSpeedX = - ballSpeedX;
+			}
+			else
+			{
+				ballReset();
+			}
 		}
 		
 		if(ballX > canvas.width)
 		{
-			ballSpeedX = - ballSpeedX;
+			if(ballY > paddle2Y && ballY < paddle2Y + PADDLE_HEIGHT)
+			{
+				ballSpeedX = - ballSpeedX;
+			}
+			else
+			{
+				ballReset();
+			}
 		}
 		
 		if(ballY > canvas.height || ballY < 0)
