@@ -5,6 +5,8 @@
 <script>
 var canvas;
 var canvasContext;
+var mouseX;
+var mouseY;
 
 var ballX = 50;
 var ballY = 50;
@@ -15,13 +17,14 @@ var paddleX = 350;
 
 const PADDLE_WIDTH = 100;
 const PADDlE_THICKNESS = 10;
+const PADDLE_FRM_EDGE = 30;
 
 function updateMousePos(evt)
 {
 	var rect = canvas.getBoundingClientRect();
 	var root = document.documentElement;
-	var mouseX = evt.clientX - rect.left - root.scrollLeft;
-	var mouseY = evt.clientY - rect.top - root.scrollTop;
+	mouseX = evt.clientX - rect.left - root.scrollLeft;
+	mouseY = evt.clientY - rect.top - root.scrollTop;
 	
 	paddleX = mouseX - PADDLE_WIDTH/2;
 }
@@ -68,6 +71,22 @@ function moveEveryThing()
 		//ballSpeedY = - ballSpeedY;
 		ballReset();
 	}
+	
+	var paddleTopEdgeY = canvas.height - PADDLE_FRM_EDGE;
+	var paddleBottomEdgeY = paddleTopEdgeY + PADDlE_THICKNESS;
+	var paddleLeftX = paddleX;
+	var paddleRightX = paddleX + PADDLE_WIDTH;
+	
+	if(ballY > paddleTopEdgeY && ballY < paddleBottomEdgeY && ballX > paddleLeftX && ballX < paddleRightX )
+	{
+		ballSpeedY = - ballSpeedY;
+		
+		var centerOfPaddle = paddleX + PADDLE_WIDTH/2;
+		var ballDistFrmCenter = ballX - centerOfPaddle;
+		
+		ballSpeedX = ballDistFrmCenter*0.35;
+	}
+	
 }
 
 
@@ -77,10 +96,12 @@ function drawEveryThing()
 	colorRect(0,0,canvas.width,canvas.height,'grey');
 	
 	//draw the paddle
-	colorRect(paddleX,canvas.height - 20,PADDLE_WIDTH,PADDlE_THICKNESS,'yellow');
+	colorRect(paddleX,canvas.height - PADDLE_FRM_EDGE,PADDLE_WIDTH,PADDlE_THICKNESS,'yellow');
 	
 	//draws the ball 
 	colorCircle(ballX,ballY,10,'white');
+	
+	colorText(mouseX+","+mouseY,mouseX,mouseY,'white');
 		
 }
 
@@ -96,6 +117,12 @@ function colorCircle(centerX,centerY,radius,drawColor)
 	canvasContext.beginPath();
 	canvasContext.arc(centerX,centerY,radius,0,Math.PI*2,true);
 	canvasContext.fill();
+}
+
+function colorText(msg,x,y,color)
+{
+	canvasContext.fillStyle = color;
+	canvasContext.fillText(msg,x,y);
 }
 
 </script>
