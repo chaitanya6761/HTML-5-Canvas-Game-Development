@@ -19,8 +19,8 @@
 	var paddle1Y = 250;
 	var paddle2Y = 250;
 	
-	const PADDLE_SPEED = 40;
-	const PADDLE_HEIGHT = 100;
+	const PADDLE_SPEED = 70;
+	var PADDLE_HEIGHT = 100;
 	const PADDLE_THICKNESS = 10;	
 	
 	var player1Score = 0;
@@ -56,7 +56,7 @@
 		canvas = document.getElementById("gameCanvas");
 		canvas_context = canvas.getContext("2d");
 		
-		canvas.addEventListener('keydown', doKeyDown, true);
+		window.addEventListener('keydown', doKeyDown, true);
 		
 		var framesPerSecond = 30;
 		setInterval(function(){
@@ -67,6 +67,7 @@
 	function ballReset()
 	{
 		ballSpeedX = - 7;
+		PADDLE_HEIGHT = 100;
 		ballX = canvas.width/2;
 		ballY = canvas.height/2;
 	}
@@ -80,7 +81,8 @@
 		{
 			if(ballY > paddle1Y && ballY < paddle1Y + PADDLE_HEIGHT)
 			{
-				ballSpeedX = - ballSpeedX * 1.1;
+				ballSpeedX = - ballSpeedX * 1.01;
+				//PADDLE_HEIGHT = PADDLE_HEIGHT * 0.9
 			}
 			else
 			{
@@ -94,6 +96,7 @@
 			if(ballY > paddle2Y && ballY < paddle2Y + PADDLE_HEIGHT)
 			{
 				ballSpeedX = - ballSpeedX * 1.1;
+				//PADDLE_HEIGHT = PADDLE_HEIGHT * 0.9;
 			}
 			else
 			{
