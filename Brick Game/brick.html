@@ -5,12 +5,26 @@
 <script>
 var canvas;
 var canvasContext;
+
 var ballX = 50;
 var ballY = 50;
 var ballSpeedX = 10;
 var ballSpeedY = 4;
 
+var paddleX = 350;
 
+const PADDLE_WIDTH = 100;
+const PADDlE_THICKNESS = 10;
+
+function updateMousePos(evt)
+{
+	var rect = canvas.getBoundingClientRect();
+	var root = document.documentElement;
+	var mouseX = evt.clientX - rect.left - root.scrollLeft;
+	var mouseY = evt.clientY - rect.top - root.scrollTop;
+	
+	paddleX = mouseX - PADDLE_WIDTH/2;
+}
 
 window.onload = function(){
 
@@ -23,6 +37,15 @@ window.onload = function(){
 	drawEveryThing();
 	}, 1000/framesPerSecond );
 	
+	canvas.addEventListener('mousemove',updateMousePos);
+	
+	
+}
+
+function ballReset()
+{
+	ballX = canvas.width/2;
+	ballY = canvas.height/2;
 }
 
 function moveEveryThing()
@@ -35,9 +58,15 @@ function moveEveryThing()
 		ballSpeedX = - ballSpeedX;
 	}
 	
-	if(ballY > canvas.height || ballY < 0)
+	if(ballY < 0)
 	{
-		ballSpeedY = - ballSpeedY;
+		ballSpeedY *= -1;
+	}
+	
+	if(ballY > canvas.height)
+	{
+		//ballSpeedY = - ballSpeedY;
+		ballReset();
 	}
 }
 
@@ -48,7 +77,7 @@ function drawEveryThing()
 	colorRect(0,0,canvas.width,canvas.height,'grey');
 	
 	//draw the paddle
-	colorRect(200,570,100,10,'yellow');
+	colorRect(paddleX,canvas.height - 20,PADDLE_WIDTH,PADDlE_THICKNESS,'yellow');
 	
 	//draws the ball 
 	colorCircle(ballX,ballY,10,'white');
