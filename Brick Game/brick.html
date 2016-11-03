@@ -19,6 +19,15 @@ const PADDLE_WIDTH = 100;
 const PADDlE_THICKNESS = 10;
 const PADDLE_FRM_EDGE = 30;
 
+const BRICK_WIDTH = 80;
+const BRICK_HEIGHT = 20;
+const BRICK_GAP = 2;
+const BRICK_COLS = 18;
+const BRICK_ROWS = 14;
+
+
+var bricks = new Array(BRICK_COLS * BRICK_ROWS);
+
 function updateMousePos(evt)
 {
 	var rect = canvas.getBoundingClientRect();
@@ -27,6 +36,14 @@ function updateMousePos(evt)
 	mouseY = evt.clientY - rect.top - root.scrollTop;
 	
 	paddleX = mouseX - PADDLE_WIDTH/2;
+}
+
+function brickReset()
+{
+	for(var i = 0;i<BRICK_COLS * BRICK_ROWS;i++)
+	{
+		bricks[i] = true;
+	}
 }
 
 window.onload = function(){
@@ -41,7 +58,7 @@ window.onload = function(){
 	}, 1000/framesPerSecond );
 	
 	canvas.addEventListener('mousemove',updateMousePos);
-	
+	brickReset();
 	
 }
 
@@ -89,17 +106,35 @@ function moveEveryThing()
 	
 }
 
+function drawBricks()
+{
+	for(var eachRow=0;eachRow < BRICK_ROWS; eachRow++)	
+	{
+		for(var eachCol=0;eachCol<BRICK_COLS;eachCol++)
+		{
+			var index = BRICK_COLS * eachRow + eachCol;
+		
+			if(bricks[index])
+			{
+				colorRect(BRICK_WIDTH*eachCol,BRICK_HEIGHT*eachRow,BRICK_WIDTH-BRICK_GAP,BRICK_HEIGHT-BRICK_GAP,'blue');
+			}
+		}
+	}
+}
+
 
 function drawEveryThing()
 { 
 	//draw the canvas
-	colorRect(0,0,canvas.width,canvas.height,'grey');
+	colorRect(0,0,canvas.width,canvas.height,'black');
 	
 	//draw the paddle
 	colorRect(paddleX,canvas.height - PADDLE_FRM_EDGE,PADDLE_WIDTH,PADDlE_THICKNESS,'yellow');
 	
 	//draws the ball 
 	colorCircle(ballX,ballY,10,'white');
+	
+	drawBricks();
 	
 	colorText(mouseX+","+mouseY,mouseX,mouseY,'white');
 		
