@@ -20,10 +20,10 @@ const PADDlE_THICKNESS = 10;
 const PADDLE_FRM_EDGE = 30;
 
 const BRICK_WIDTH = 80;
-const BRICK_HEIGHT = 20;
+const BRICK_HEIGHT = 40;
 const BRICK_GAP = 2;
-const BRICK_COLS = 18;
-const BRICK_ROWS = 14;
+const BRICK_COLS = 10;
+const BRICK_ROWS = 7;
 
 
 var bricks = new Array(BRICK_COLS * BRICK_ROWS);
@@ -68,8 +68,9 @@ function ballReset()
 	ballY = canvas.height/2;
 }
 
-function moveEveryThing()
+function ballMove()
 {
+
 	ballX = ballX + ballSpeedX;
 	ballY = ballY + ballSpeedY;
 	
@@ -88,7 +89,29 @@ function moveEveryThing()
 		//ballSpeedY = - ballSpeedY;
 		ballReset();
 	}
+
+}
+
+function ballBrickHandling()
+{
+	var ballCol = Math.floor(ballX/BRICK_WIDTH);
+	var ballRow = Math.floor(ballY/BRICK_HEIGHT);
+	var brickIndex = rowColToIndex(ballCol,ballRow);
 	
+	if(ballCol >=0 && ballCol < BRICK_COLS && ballRow >=0 && ballRow < BRICK_ROWS)
+	{
+		if(bricks[brickIndex])
+		{
+			bricks[brickIndex] = false;
+			ballSpeedY *= -1; 
+		}
+	}
+	
+}
+
+function ballPaddleHandling()
+{
+	//Reflect Ball Code
 	var paddleTopEdgeY = canvas.height - PADDLE_FRM_EDGE;
 	var paddleBottomEdgeY = paddleTopEdgeY + PADDlE_THICKNESS;
 	var paddleLeftX = paddleX;
@@ -106,13 +129,23 @@ function moveEveryThing()
 	
 }
 
+function moveEveryThing()
+{
+	ballMove();
+	
+	ballBrickHandling();
+	
+	ballPaddleHandling();
+	
+}
+
 function drawBricks()
 {
 	for(var eachRow=0;eachRow < BRICK_ROWS; eachRow++)	
 	{
 		for(var eachCol=0;eachCol<BRICK_COLS;eachCol++)
 		{
-			var index = BRICK_COLS * eachRow + eachCol;
+			var index = rowColToIndex(eachCol,eachRow);
 		
 			if(bricks[index])
 			{
@@ -120,6 +153,11 @@ function drawBricks()
 			}
 		}
 	}
+}
+
+function rowColToIndex(col,row)
+{
+	return  col + BRICK_COLS * row 
 }
 
 
@@ -136,8 +174,7 @@ function drawEveryThing()
 	
 	drawBricks();
 	
-	colorText(mouseX+","+mouseY,mouseX,mouseY,'white');
-		
+	//colorText(mouseCol+","+mouseRow+":"+brickIndex,mouseX,mouseY,'white');		
 }
 
 function colorRect(leftX,topY,width,height,drawColor)
