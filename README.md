@@ -1,5 +1,3 @@
-# HTML-5-Canvas-Game-Development
-
 ## 1. The Brick Breaker Game:
 This classic arcade game allows the user to break all the bricks on the screen with the help of a ball and a paddle. In my version of the game the user can control the paddle with mouse control.  
 
