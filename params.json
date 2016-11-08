@@ -1,0 +1,6 @@
+{
+  "name": "Html-5-canvas-game-development",
+  "tagline": "",
+  "body": "## 1. The Brick Breaker Game:\r\nThis classic arcade game allows the user to break all the bricks on the screen with the help of a ball and a paddle. In my version of the game the user can control the paddle with mouse control.  \r\n\r\nCode: [code](https://github.com/chaitanya6761/HTML-5-Canvas-Game-Development/blob/master/Brick%20Game/brick.html).\r\n\r\nScreenshot of the Game:\r\n![2048](https://raw.githubusercontent.com/chaitanya6761/HTML-5-Canvas-Game-Development/master/Brick%20Game/brick.JPG)\r\n\r\n\r\n\r\n## 2. The classic Pong Game:\r\nThe classic arcade paddle ball game. My version is for 1 and 2 players.The user can control the paddle with the mouse.\r\n\r\nCode: [code](https://github.com/chaitanya6761/HTML-5-Canvas-Game-Development/tree/master/Pong).\r\n\r\nScreenshot of the Game:\r\n![2048](https://raw.githubusercontent.com/chaitanya6761/HTML-5-Canvas-Game-Development/master/Pong/pong.JPG)\r\n",
+  "note": "Don't delete this file! It's used internally to help with page regeneration."
+}
